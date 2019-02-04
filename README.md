@@ -17,5 +17,5 @@ Wrapper for VK comment bot
 `photo` or `doc` - path to photo or file
 
 *Optional arguments*:
-`from_group` - group if. (You must be an owner)<br>
+`from_group` - group id<br>
 If given the comment would be sent with your group's name
