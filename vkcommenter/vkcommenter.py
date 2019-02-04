@@ -11,44 +11,44 @@ class VKCommenter:
         self._session = None
 
     async def _upload_doc(self, path, group_id):
-        upload_data = await self._queue.request('docs.getWallUploadServer')
+        upload_data = await self._queue.request("docs.getWallUploadServer")
 
-        upload_url = upload_data['upload_url']
+        upload_url = upload_data["upload_url"]
 
         post_request = self._session.post(
-            upload_url, data={'file': open(path, 'rb')}
+            upload_url, data={"file": open(path, "rb")}
         )
 
         async with post_request as resp:
             response = json.loads(await resp.text())
 
-        doc = await self._queue.request('docs.save', file=response['file'])
+        doc = await self._queue.request("docs.save", file=response["file"])
 
-        return "doc{}_{}".format(doc['doc']['owner_id'], doc['doc']['id'])
+        return "doc{}_{}".format(doc["doc"]["owner_id"], doc["doc"]["id"])
 
     async def _upload_image(self, path, group_id):
-        upload_data = await self._queue.request('photos.getWallUploadServer',
+        upload_data = await self._queue.request("photos.getWallUploadServer",
                                                 group_id=group_id)
 
-        upload_url = upload_data['upload_url']
+        upload_url = upload_data["upload_url"]
 
         post_request = self._session.post(
-            upload_url, data={'photo': open(path, 'rb')}
+            upload_url, data={"photo": open(path, "rb")}
         )
 
         async with post_request as resp:
             response = json.loads(await resp.text())
 
         photo = await self._queue.request(
-            'photos.saveWallPhoto',
-            server=resp['server'],
-            photo=resp['photo'],
-            hash=resp['hash'],
+            "photos.saveWallPhoto",
+            server=response["server"],
+            photo=response["photo"],
+            hash=response["hash"],
             group_id=group_id
         )
 
         return "photo{}_{}_{}".format(
-            photo[0]['owner_id'], photo[0]['id'], photo[0]['access_key']
+            photo[0]["owner_id"], photo[0]["id"], photo[0]["access_key"]
         )
 
     # Public API -------------------------------------------------------------
