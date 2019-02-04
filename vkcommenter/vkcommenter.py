@@ -91,6 +91,9 @@ class VKCommenter:
         if reply_to_comment:
             kwargs["reply_to_comment"] = reply_to_comment
 
+        if from_group:
+            kwargs["from_group"] = from_group
+
         await self._queue.request("wall.createComment", **kwargs)
 
     async def dispose(self):

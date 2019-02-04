@@ -41,7 +41,7 @@ Arguments:
 - `text` - text for comment
 - `image`, `doc` - path to photo or file to attach to comment
 - `reply_to_comment` - if comment is reply to other comment
-- `from_group` - if you want to create comment as a group
+- `from_group` - if you want to create comment as a group, pass it's id here
 
 - Gracefully stop commenter
 
