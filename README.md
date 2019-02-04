@@ -1,21 +1,58 @@
-# CommentBot
-Wrapper for VK comment bot
+
+# VKCommenter
+
+Asynchronous system for creating comment to posts in vkontakte's groups.
 
 ## Usage
-### Create a bot instance.<br>
-```bot = CommentBot(tokens, session)```
 
-`tokens` - list of VK **user** tokens. Scopes required: `photos,wall,docs`<br>
-`session` - asyncio ClientSession object<br>
+- Create commenter and pass your tokens to it. Tokens should be users and
+    have following scopes: `photos,wall,docs`.
 
-### Add comment to post
-```bot.add_comment(group_id, post_id, photo=None, doc=None, from_group=0)```<br>
+```py
+from vkcommenter import VKCommenter
 
-*Required arguments:*<br>
-`group_id` - target group id<br>
-`post_id` - target post id<br>
-`photo/doc` - path to photo or file
+tokens = ["token1", "token2", "token3"]
 
-*Optional arguments*:
-`from_group` - group id<br>
-If given the comment would be sent with your group's name
+commenter = VKCommenter(tokens)
+```
+
+- Start commenter (asynchronously)
+
+```py
+
+async def programm():
+    await commenter.start()
+
+```
+
+- Create comments with VKCommenter's method `create_comment`
+
+```py
+commenter.create_comment(
+    group_id, post_id, text=None, image=None,
+    doc=None, from_group=None, reply_to_comment=None
+)
+```
+
+Arguments:
+
+- `group_id` - target group id
+- `post_id` - target post id
+- `text` - text for comment
+- `image`, `doc` - path to photo or file to attach to comment
+- `reply_to_comment` - if comment is reply to other comment
+- `from_group` - group id (if you want to create comment as a group)
+
+- Gracefully stop commenter
+
+```py
+
+async def programm():
+    await commenter.dispose()
+
+```
+
+# Authors
+
+- Michael Krukov (@michaelkrukov)
+- Daniel Korotkov (@darkenezy)
