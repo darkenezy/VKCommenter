@@ -54,7 +54,7 @@ class VKCommenter:
     # Public API -------------------------------------------------------------
 
     async def start(self):
-        await self._queue.start()
+        self._queue.start()
 
     async def create_comment(self, group_id, post_id, text=None, image=None,
                           doc=None, from_group=None, reply_to_comment=None):
@@ -73,6 +73,9 @@ class VKCommenter:
 
         elif doc:
             attach = await self._upload_doc(doc, group_id)
+
+        else:
+            attach = None
 
         kwargs = {
             "owner_id": -group_id,

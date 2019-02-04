@@ -21,7 +21,7 @@ commenter = VKCommenter(tokens)
 ```py
 
 async def programm():
-    await commenter.start()
+    commenter.start()
 
 ```
 
