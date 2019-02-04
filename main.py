@@ -4,7 +4,6 @@ from vk_queue import *
 async def session_init():
     return ClientSession()
 
-
 class CommentBot():
     def __init__(self, tokens, session):
         self.futures = []
@@ -20,7 +19,7 @@ class CommentBot():
             print('No attachment given')
             return
             
-        x = await self.queue.request('wall.createComment',
+        await self.queue.request('wall.createComment',
                                      owner_id=-group_id,
                                      post_id=post_id,
                                      attachments=attach,
@@ -47,7 +46,6 @@ class CommentBot():
                                          group_id=group_id)
         
         return "photo{}_{}_{}".format(photo[0]['owner_id'], photo[0]['id'], photo[0]['access_key'])
-
             
 tokens = ['TOKEN1',
           'TOKEN2',
