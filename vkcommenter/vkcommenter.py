@@ -9,11 +9,12 @@ class VKCommenter:
     def __init__(self, tokens):
         self._queue = VKQueue(tokens)
         self._session = None
+		
         self._cache = {}
 
     async def _upload_doc(self, path, group_id):
-        if path in self._cache:
-            return self._cache[path]
+        if ("doc", path) in self._cache:
+            return self._cache[("doc", path)]
         
         upload_data = await self._queue.request("docs.getWallUploadServer")
         
@@ -29,13 +30,13 @@ class VKCommenter:
         doc = await self._queue.request("docs.save", file=response["file"])
 
         doc_id = "doc{}_{}".format(doc["doc"]["owner_id"], doc["doc"]["id"])
-        self._cache[path] = doc_id
-        
+        self._cache[("doc", path)] = doc_id
+ 
         return doc_id
 
     async def _upload_image(self, path, group_id):
-        if path in self._cache:
-            return self._cache[path]
+        if ("image", path) in self._cache:
+            return self._cache[("image", path)]
         
         upload_data = await self._queue.request("photos.getWallUploadServer",
                                                 group_id=group_id)
@@ -60,8 +61,8 @@ class VKCommenter:
         photo_id = "photo{}_{}_{}".format(
             photo[0]["owner_id"], photo[0]["id"], photo[0]["access_key"]
         )
-
-        self._cache[path] = photo_id
+        self._cache[("image", path)] = photo_id
+		
         return photo_id
 
     # Public API -------------------------------------------------------------
